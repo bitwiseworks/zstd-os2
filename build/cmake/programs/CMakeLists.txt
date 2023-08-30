@@ -37,6 +37,14 @@ target_link_libraries(zstd ${PROGRAMS_ZSTD_LINK_TARGET})
 if (CMAKE_SYSTEM_NAME MATCHES "(Solaris|SunOS)")
     target_link_libraries(zstd rt)
 endif ()
+
+if(OS2)
+    set_target_properties(zstd PROPERTIES
+        OS2_DEF_VENDOR "$ENV{VENDOR}"
+        OS2_DEF_PATCH "${zstd_VERSION_PATCH}"
+        OS2_DEF_VERSION "${zstd_VERSION_MAJOR}.${zstd_VERSION_MINOR}.${zstd_VERSION_PATCH}")
+endif()
+
 install(TARGETS zstd
   RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
   BUNDLE DESTINATION "${CMAKE_INSTALL_BINDIR}")
@@ -78,6 +86,13 @@ if (UNIX OR OS2)
     add_executable(zstd-frugal ${PROGRAMS_DIR}/zstdcli.c ${PROGRAMS_DIR}/util.c ${PROGRAMS_DIR}/timefn.c ${PROGRAMS_DIR}/fileio.c ${PROGRAMS_DIR}/fileio_asyncio.c)
     target_link_libraries(zstd-frugal ${PROGRAMS_ZSTD_LINK_TARGET})
     set_property(TARGET zstd-frugal APPEND PROPERTY COMPILE_DEFINITIONS "ZSTD_NOBENCH;ZSTD_NODICT;ZSTD_NOTRACE")
+
+    if(OS2)
+        set_target_properties(zstd-frugal PROPERTIES
+            OS2_DEF_VENDOR "$ENV{VENDOR}"
+            OS2_DEF_PATCH "${zstd_VERSION_PATCH}"
+            OS2_DEF_VERSION "${zstd_VERSION_MAJOR}.${zstd_VERSION_MINOR}.${zstd_VERSION_PATCH}")
+    endif()
 endif ()
 
 # Add multi-threading support definitions

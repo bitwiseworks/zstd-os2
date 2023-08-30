@@ -131,6 +131,11 @@ if (ZSTD_BUILD_SHARED)
             OUTPUT_NAME zstd
             VERSION ${zstd_VERSION_MAJOR}.${zstd_VERSION_MINOR}.${zstd_VERSION_PATCH}
             SOVERSION ${zstd_VERSION_MAJOR})
+    if(OS2)
+        set_target_properties(libzstd_shared PROPERTIES
+            OS2_DEF_VENDOR "$ENV{VENDOR}"
+            OS2_DEF_PATCH "${zstd_VERSION_PATCH}")
+    endif()
 endif ()
 
 if (ZSTD_BUILD_STATIC)
