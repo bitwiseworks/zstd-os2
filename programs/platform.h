@@ -89,7 +89,7 @@ extern "C" {
  */
 #  elif !defined(_WIN32) \
      && ( defined(__unix__) || defined(__unix) \
-       || defined(__midipix__) || defined(__VMS) || defined(__HAIKU__) )
+       || defined(__midipix__) || defined(__VMS) || defined(__HAIKU__) || defined(__OS2__))
 
 #    if defined(__linux__) || defined(__linux) || defined(__CYGWIN__)
 #      ifndef _POSIX_C_SOURCE
@@ -157,10 +157,10 @@ static __inline int IS_CONSOLE(FILE* stdStream) {
 /******************************
 *  OS-specific IO behaviors
 ******************************/
-#if defined(MSDOS) || defined(OS2) || defined(WIN32) || defined(_WIN32)
+#if defined(MSDOS) || defined(OS2) || defined(WIN32) || defined(_WIN32) || defined(__OS2__)
 #  include <fcntl.h>   /* _O_BINARY */
 #  include <io.h>      /* _setmode, _fileno, _get_osfhandle */
-#  if !defined(__DJGPP__)
+#  if !defined(__DJGPP__) && !defined(__OS2__)
 #    include <windows.h> /* DeviceIoControl, HANDLE, FSCTL_SET_SPARSE */
 #    include <winioctl.h> /* FSCTL_SET_SPARSE */
 #    define SET_BINARY_MODE(file) { int const unused=_setmode(_fileno(file), _O_BINARY); (void)unused; }

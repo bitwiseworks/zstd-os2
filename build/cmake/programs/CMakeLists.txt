@@ -41,7 +41,7 @@ install(TARGETS zstd
   RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
   BUNDLE DESTINATION "${CMAKE_INSTALL_BINDIR}")
 
-if (UNIX)
+if (UNIX OR OS2)
     add_custom_target(zstdcat ALL ${CMAKE_COMMAND} -E create_symlink zstd zstdcat DEPENDS zstd COMMENT "Creating zstdcat symlink")
     add_custom_target(unzstd ALL ${CMAKE_COMMAND} -E create_symlink zstd unzstd DEPENDS zstd COMMENT "Creating unzstd symlink")
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/zstdcat DESTINATION "${CMAKE_INSTALL_BINDIR}")
@@ -85,8 +85,9 @@ endif ()
 if (ZSTD_MULTITHREAD_SUPPORT)
     set_property(TARGET zstd APPEND PROPERTY COMPILE_DEFINITIONS "ZSTD_MULTITHREAD")
 
-    if (UNIX)
+    if (UNIX OR OS2)
         target_link_libraries(zstd ${THREADS_LIBS})
+        target_link_libraries(zstd-frugal ${THREADS_LIBS})
 
         add_custom_target(zstdmt ALL ${CMAKE_COMMAND} -E create_symlink zstd zstdmt DEPENDS zstd COMMENT "Creating zstdmt symlink")
         install(FILES ${CMAKE_CURRENT_BINARY_DIR}/zstdmt DESTINATION "${CMAKE_INSTALL_BINDIR}")

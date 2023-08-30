@@ -127,7 +127,7 @@ endif ()
 #-----------------------------------------------------------------------------
 # External dependencies
 #-----------------------------------------------------------------------------
-if (ZSTD_MULTITHREAD_SUPPORT AND UNIX)
+if (ZSTD_MULTITHREAD_SUPPORT AND (UNIX OR OS2))
     set(THREADS_PREFER_PTHREAD_FLAG ON)
     find_package(Threads REQUIRED)
     if(CMAKE_USE_PTHREADS_INIT)
